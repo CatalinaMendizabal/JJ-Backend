@@ -1,19 +1,31 @@
 version: '3'
 
 services:
-  api:
-    container_name: "compose-api"
-    build:
-      context: .
-      dockerfile: Dockerfile
+#  api:
+#    container_name: "compose-api"
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8000:8080
+#    environment:
+#      DB_USER: sa
+#      DB_PASSWORD: password
+#      DB_NAME: compose-db
+#      DB_HOST: postgres_db
+#      DB_PORT: 5432
+
+  follow_db:
+    container_name: follow_db
+    image: postgres:12
     ports:
-      - 8000:8080
+      - 5437:5432
     environment:
-      DB_USER: sa
-      DB_PASSWORD: password
-      DB_NAME: compose-db
-      DB_HOST: postgres_db
-      DB_PORT: 5432
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: compose-db
+    volumes:
+      - followdata:/var/lib/postgresql/data
 
   db:
     container_name: postgres_db
@@ -30,20 +42,37 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:18.0.0
     container_name: keycloak
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_DB=postgres_db
-      - KC_DB_URL_HOST=postgres
-      - KC_DB_URL_DATABASE=keycloak
-      - KC_DB_USERNAME=keycloak
-      - KC_DB_PASSWORD=password
-    ports:
-      - "8080:8080"
-    command: start-dev
     depends_on:
-      - db
+      - keycloak-db
+    ports:
+      - 8180:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-db
+    command: start-dev
+
+  keycloak-db:
+    container_name: keycloak-db
+    image: postgres:12
+    ports:
+      - 5436:5432
+    environment:
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: keycloak
+    volumes:
+      - keycloakdata:/var/lib/postgresql/data
+
 
 volumes:
   pgdata:
-    external: false
+    external: true
+  keycloakdata:
+    external: true
+  followdata:
+    external: true
