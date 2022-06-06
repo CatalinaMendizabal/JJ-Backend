@@ -1,19 +1,20 @@
 version: '3'
 
 services:
-#  api:
-#    container_name: "compose-api"
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    ports:
-#      - 8000:8080
-#    environment:
-#      DB_USER: sa
-#      DB_PASSWORD: password
-#      DB_NAME: compose-db
-#      DB_HOST: postgres_db
-#      DB_PORT: 5432
+
+  follow-api:
+    container_name: follow-api
+    depends_on:
+      - follow_db
+    ports:
+      - 8081:8080
+    image: ghcr.io/nico-werner/jibberjabber-followers-api:main
+    environment:
+      DB_USER: sa
+      DB_PASSWORD: password
+      DB_NAME: compose-db
+      DB_HOST: follow_db
+      DB_PORT: 5437
 
   follow_db:
     container_name: follow_db
@@ -26,6 +27,20 @@ services:
       POSTGRES_DB: compose-db
     volumes:
       - followdata:/var/lib/postgresql/data
+
+  post-api:
+    container_name: post-api
+    depends_on:
+      - db
+    ports:
+      - 8082:8080
+    image: ghcr.io/nico-werner/jibberjabber-posts-api:main
+    environment:
+      DB_USER: sa
+      DB_PASSWORD: password
+      DB_NAME: compose-db
+      DB_HOST: postgres_db
+      DB_PORT: 5433
 
   db:
     container_name: postgres_db
