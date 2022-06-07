@@ -12,8 +12,8 @@ services:
     environment:
       DB_USER: sa
       DB_PASSWORD: password
-      DB_NAME: compose-db
-      DB_HOST: follow_db
+      DB_NAME: postgres
+      DB_HOST: host.docker.internal
       DB_PORT: 5437
 
   follow_db:
@@ -24,7 +24,7 @@ services:
     environment:
       POSTGRES_USER: sa
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: compose-db
+      POSTGRES_DB: follow-db
     volumes:
       - followdata:/var/lib/postgresql/data
 
@@ -32,14 +32,14 @@ services:
     container_name: post-api
     depends_on:
       - db
+    image: ghcr.io/nico-werner/jibberjabber-posts-api:main
     ports:
       - 8082:8080
-    image: ghcr.io/nico-werner/jibberjabber-posts-api:main
     environment:
       DB_USER: sa
       DB_PASSWORD: password
-      DB_NAME: compose-db
-      DB_HOST: postgres_db
+      DB_NAME: postgres
+      DB_HOST: host.docker.internal
       DB_PORT: 5433
 
   db:
