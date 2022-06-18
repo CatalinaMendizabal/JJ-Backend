@@ -49,6 +49,9 @@ services:
       DD_APM_ENABLED: true
       DD_STEP: PT10S
       KC_URL: keycloak:8080/auth
+      KEYCLOAK_POST_SECRET: E6pgYzQH83gDczdzReL1rrQrU8aAcfLj
+#    entrypoint: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005 -Dspring.profiles.active=production -jar /app/spring-boot-application.jar
+
 
   follow_db:
     container_name: follow_db
@@ -133,16 +136,9 @@ services:
 
   reverse-proxy:
     container_name: jibber-jabber-reverse-proxy
-    image: nginx
-    depends_on:
-      - follow-api
-      - post-api
-      - keycloak
+    image: ghcr.io/catalinamendizabal/jibber-jabber-base-ui:develop
     ports:
       - 8086:80
-    volumes:
-      - ../jib-jab-front/jibber-jabber-base-ui/build/:/usr/share/nginx/html:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
 
 volumes:
   pgdata:
