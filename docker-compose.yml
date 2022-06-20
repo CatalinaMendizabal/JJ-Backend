@@ -37,7 +37,7 @@ services:
       DD_LOGS_ENABLED: true
       DD_APM_ENABLED: true
       DD_STEP: PT10S
-      KC_URL: jibberjabberg2.ml/auth
+      KC_URL: ${KC_DOMAIN}
       KEYCLOAK_POST_SECRET: ${KEYCLOAK_FOLLOW_SECRET}
 
   follow_db:
@@ -72,7 +72,7 @@ services:
       DD_LOGS_ENABLED: true
       DD_APM_ENABLED: true
       DD_STEP: PT10S
-      KC_URL: jibberjabberg2.ml/auth
+      KC_URL: ${KC_DOMAIN}
       KEYCLOAK_POST_SECRET: ${KEYCLOAK_POST_SECRET}
 
 
@@ -128,7 +128,6 @@ services:
     restart: always
     volumes:
       - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/letsencrypt/:ro
 
   certbot:
     image: certbot/certbot:latest
