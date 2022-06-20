@@ -138,7 +138,17 @@ services:
     container_name: jibber-jabber-reverse-proxy
     image: ghcr.io/catalinamendizabal/jibber-jabber-base-ui:develop
     ports:
-      - 8086:80
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./certbot/www:/var/www/certbot/:ro
+#      - ./certbot/conf/:/etc/nginx/ssl/:ro
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
 
 volumes:
   pgdata:
