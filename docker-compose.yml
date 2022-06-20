@@ -96,8 +96,6 @@ services:
     ports:
       - 8080:8080
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_PASSWORD: password
