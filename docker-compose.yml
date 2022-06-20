@@ -24,7 +24,7 @@ services:
       - datadog
     ports:
       - 8081:8080
-    image: ghcr.io/nico-werner/jibberjabber-followers-api:main
+    image: ghcr.io/nico-werner/jibberjabber-followers-api:${environment}
     environment:
       DB_USER: sa
       DB_PASSWORD: password
@@ -38,7 +38,7 @@ services:
       DD_APM_ENABLED: true
       DD_STEP: PT10S
       KC_URL: jibberjabberg2.ml/auth
-      KEYCLOAK_POST_SECRET: GYul4Ik9QjP8rkbaxvv9pqE9z4XegLyf
+      KEYCLOAK_POST_SECRET: ${KEYCLOAK_FOLLOW_SECRET}
 
   follow_db:
     container_name: follow_db
@@ -57,7 +57,7 @@ services:
     depends_on:
       - db
       - datadog
-    image: ghcr.io/nico-werner/jibberjabber-posts-api:main
+    image: ghcr.io/nico-werner/jibberjabber-posts-api:${environment}
     ports:
       - 8082:8080
     environment:
@@ -73,7 +73,7 @@ services:
       DD_APM_ENABLED: true
       DD_STEP: PT10S
       KC_URL: jibberjabberg2.ml/auth
-      KEYCLOAK_POST_SECRET: gGdu8v6i4m95k5Wh6aAQge8zSFU2t6Ax
+      KEYCLOAK_POST_SECRET: ${KEYCLOAK_POST_SECRET}
 
 
   db:
@@ -119,7 +119,7 @@ services:
 
   reverse-proxy:
     container_name: jibber-jabber-reverse-proxy
-    image: ghcr.io/catalinamendizabal/jibber-jabber-base-ui:develop
+    image: ghcr.io/catalinamendizabal/jibber-jabber-base-ui:${environment}
     ports:
       - 80:80
       - 443:443
