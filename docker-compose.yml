@@ -37,8 +37,8 @@ services:
       DD_LOGS_ENABLED: true
       DD_APM_ENABLED: true
       DD_STEP: PT10S
-      KC_URL: keycloak:8080/auth
-      KEYCLOAK_POST_SECRET: E6pgYzQH83gDczdzReL1rrQrU8aAcfLj
+      KC_URL: jibberjabberg2.ml/auth
+      KEYCLOAK_POST_SECRET: GYul4Ik9QjP8rkbaxvv9pqE9z4XegLyf
 
   follow_db:
     container_name: follow_db
@@ -72,8 +72,8 @@ services:
       DD_LOGS_ENABLED: true
       DD_APM_ENABLED: true
       DD_STEP: PT10S
-      KC_URL: keycloak:8080/auth
-      KEYCLOAK_POST_SECRET: nUhPwIAgPtG6EDAhzOZMyZCT5rrQ88P9
+      KC_URL: jibberjabberg2.ml/auth
+      KEYCLOAK_POST_SECRET: gGdu8v6i4m95k5Wh6aAQge8zSFU2t6Ax
 
 
   db:
